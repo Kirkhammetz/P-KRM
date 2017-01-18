@@ -4,7 +4,7 @@ const db = require('../configs/database')
 /**
  * SCHEMA
  */
-const User = db.define('user', {
+const User = db.define('users', {
   username: {
     type: db.Sequelize.STRING,
     allowNull: false,
