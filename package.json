@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --harmony"
+    "start": "nodemon --harmony -w server/ server/"
   },
   "engines": {
     "node": ">=v7.4.0"
@@ -13,9 +13,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^1.0.2",
+    "boom": "^4.2.0",
     "dotenv": "^4.0.0",
     "koa": "next",
+    "koa-bodyparser": "next",
     "koa-router": "next",
+    "pg": "^6.1.2",
     "sequelize": "^3.28.0"
   },
   "devDependencies": {
