@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon --harmony -w server/ -w main.js main.js",
-    "test": "NODE_ENV=test mocha --harmony server/tests"
+    "test": "NODE_ENV=test mocha --harmony tests/"
   },
   "engines": {
     "node": ">=v7.4.0"
@@ -17,8 +17,10 @@
     "bcrypt": "^1.0.2",
     "boom": "^4.2.0",
     "dotenv": "^4.0.0",
+    "jsonwebtoken": "^7.2.1",
     "koa": "next",
     "koa-bodyparser": "next",
+    "koa-jwt": "^2",
     "koa-router": "next",
     "pg": "^6.1.2",
     "sequelize": "^3.28.0"

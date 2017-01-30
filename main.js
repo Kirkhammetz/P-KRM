@@ -9,6 +9,8 @@ const { SERVER_PORT } = secrets
 
 process.title = secrets.SERVER_NAME
 
-
 const app = require('./server')
+
+
 app.listen(SERVER_PORT)
+console.log(`Server up on: ${SERVER_PORT}`)

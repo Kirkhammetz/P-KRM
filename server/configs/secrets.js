@@ -4,6 +4,8 @@ module.exports = {
 
   SERVER_PORT: process.env.SERVER_PORT,
 
+  SERVER_SECRET_KEY: process.env.SERVER_SECRET_KEY,
+
   DB_HOST: process.env.DB_HOST,
 
   DB_PORT: process.env.DB_PORT,
