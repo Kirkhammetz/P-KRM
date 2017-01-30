@@ -8,7 +8,7 @@ const db = new Sequelize(
   {
     host: secrets.DB_HOST,
     dialect: 'postgres',
-    logging: process.env.NODE_ENV !== 'production' ? console.log : false,
+    logging: process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test' ? console.log : false,
     benchmark: true,
   }
 )

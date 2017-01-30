@@ -19,4 +19,7 @@ describe('test suite setup', () => {
   })
 })
 
-require('./middlewares/jwt.test.js')
+/**
+ * SUITES
+ */
+require('./users/model.test')
