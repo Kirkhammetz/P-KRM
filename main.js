@@ -11,6 +11,9 @@ process.title = secrets.SERVER_NAME
 
 const app = require('./server')
 
-
-app.listen(SERVER_PORT)
-console.log(`Server up on: ${SERVER_PORT}`)
+if (NODE_ENV === 'test') {
+  module.exports = app.listen(SERVER_PORT)
+} else {
+  console.log(`Server up on: ${SERVER_PORT}`)
+  app.listen(SERVER_PORT)
+}

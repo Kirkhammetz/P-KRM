@@ -2,7 +2,7 @@ const User = require('../models/user.model')
 const Boom = require('boom')
 
 module.exports = {
-  index: async (ctx, next) => {
+  index: async ctx => {
     let user
     try {
       users = await User.findAll()
@@ -13,7 +13,7 @@ module.exports = {
     ctx.body = users
   },
 
-  create: async (ctx, next) => {
+  create: async ctx => {
     const { username, password, email } = ctx.request.body
     let newUser
     try {
@@ -25,7 +25,7 @@ module.exports = {
     ctx.body = { succes: true, message: 'User created.' }
   },
 
-  auth: async (ctx, next) => {
+  auth: async ctx => {
     const { password, email } = ctx.request.body
 
     if (!email || !email.length) throw Boom.badRequest('No Email Provided')
