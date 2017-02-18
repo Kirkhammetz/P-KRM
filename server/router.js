@@ -8,10 +8,16 @@ module.exports = (app) => {
     ctx.body = 'Wellcome route'
   })
 
-  api.get('/users', jwt, UserController.index)
+  /**
+   * Users
+   */
+  api.get('/users', UserController.index)
+  api.post('/users', UserController.create)
+  api.get('/users/:id')
+  api.put('/users/:id')
+  api.delete('/users/:id')
 
   api.post('/users/auth', UserController.auth)
-  api.post('/users/register', UserController.create)
 
   return app
     .use(async (ctx, next) => {

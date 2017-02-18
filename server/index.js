@@ -6,7 +6,7 @@ const app = new Koa()
  * Middlewares
  */
 app.use(bodyParser({
-  enableTypes: ['json', 'form']
+  enableTypes: ['json']
 }))
 
 require('./router')(app)
