@@ -11,7 +11,7 @@ module.exports = (app) => {
   /**
    * Users
    */
-  api.get('/users', UserController.index)
+  api.get('/users', jwt, UserController.index)
   api.post('/users', UserController.create)
   api.get('/users/:id')
   api.put('/users/:id')
@@ -27,7 +27,11 @@ module.exports = (app) => {
       try {
         await next()
       } catch (e) {
-        if (e.output) return ctx.body = e.output.payload
+        // If there is a Boom error instance use is data or throw generic error
+        if (e.output) {
+          ctx.status = e.output.statusCode
+          return ctx.body = e.output.payload
+        }
         return ctx.body = {
           statusCode: 500,
           message: e.message || 'Internal Server Error.'

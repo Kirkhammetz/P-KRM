@@ -17,7 +17,9 @@ require('./router')(app)
  */
 app.on('error', (err) => {
   // ADD Logging Library
-  console.error("Error to log:", err)
+  if (process.env.NODE_ENV !== 'test') {
+    console.error("Error to log:", err)
+  }
 })
 
 module.exports = app

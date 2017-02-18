@@ -88,7 +88,6 @@ describe('User Model', () => {
     it('instance.comparePassword() should throw if no value passed', async () => {
       try{
         let hash = await userInstance.comparePassword()
-        console.log(hash)
       } catch(e) {
         expect(e).to.exist
       }
