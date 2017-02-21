@@ -5,25 +5,28 @@ module.exports = {
   index: async ctx => {
     let user
     try {
-      users = await User.findAll()
+      users = await User.findAll({
+				attributes: { exclude: ['password'] },
+				raw: true,
+			})
     } catch (e) {
       ctx.app.emit('error', e)
       throw Boom.internal()
     }
-    ctx.body = users
+    return ctx.body.users = users
   },
 
   create: async ctx => {
     const { username, password, email } = ctx.request.body
-    let newUser
+    let user
     try {
-      newUser = await User.create({ username, password, email })
+      user = await User.create({ username, password, email })
     } catch (e) {
       ctx.app.emit('error', e)
       throw Boom.badRequest(e.message)
     }
-    ctx.body = { succes: true, message: 'User created.' }
-  },
+    return ctx.body.user = user
+	},
 
   auth: async ctx => {
     const { password, email } = ctx.request.body
@@ -36,13 +39,14 @@ module.exports = {
      */
     let user
     try {
-      user = await User.findOne({ email })
+      user = await User.findOne({ where: { email } })
     } catch (e) {
       // Catch Sequelize Error if any.
       ctx.app.emit('error', e)
       throw Boom.internal()
     }
 
+		// throw if not found
     if (!user) throw Boom.notFound('User not found')
 
     /**
@@ -62,14 +66,54 @@ module.exports = {
     if (!passwordCheck) throw Boom.forbidden('Invalid password.')
 
     try {
-      return ctx.body = {
-        authToken: user.auth()
-      }
+      return ctx.body.authToken = user.auth()
     } catch (e) {
       // Catch auth errors if any.
       ctx.app.emit('error', e)
       throw Boom.internal()
     }
   },
+
+	get: async ctx => {
+		const { id } = ctx.params
+		if(!id) throw Boom.invalid('No id provided')
+		
+		/**
+		  * Get User
+			*/
+		let user
+		try {
+			user = await User.findOne({
+				attributes: { exclude: ['password'] },
+				where: { id },
+				raw: true
+			})
+		} catch(e) {
+			ctx.app.emit('error', e)	
+			throw Boom.internal('Error fetching single user')
+		}
+		if (!user) throw Boom.notFound('User not found')
+		return ctx.body.user = user
+	},	
+	
+	delete: async ctx => {
+		const { id } = ctx.params
+		if(!id) throw Boom.invalid('No id provided')
+		
+		/**
+		  * Get User
+			*/
+		let user
+		try {
+			user = await User.destroy({
+				where: { id },
+			})
+		} catch(e) {
+			ctx.app.emit('error', e)	
+			throw Boom.internal('Error deleting  user')
+		}
+		if (!user) throw Boom.notFound('User not found')
+		return ctx.body.user = user
+	},
 
 }
