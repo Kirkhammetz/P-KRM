@@ -1,4 +1,5 @@
 const UserController = require('./controllers/user.controller')
+const AuthController = require('./controllers/auth.controller')
 const jwt = require('./libs/jwt')
 const Boom = require('boom')
 
@@ -19,7 +20,7 @@ module.exports = (app) => {
   api.put('/users/:id')
   api.delete('/users/:id', jwt.auth, UserController.delete)
 
-  api.post('/auth', UserController.auth)
+  api.post('/auth', AuthController.auth)
 
   return app
     .use(async (ctx, next) => {
