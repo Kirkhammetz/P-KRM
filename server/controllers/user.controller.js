@@ -99,21 +99,22 @@ module.exports = {
 	delete: async ctx => {
 		const { id } = ctx.params
 		if(!id) throw Boom.invalid('No id provided')
-		
 		/**
 		  * Get User
 			*/
-		let user
+		user = await User.findOne({
+			where: { id },
+		})
+		if (!user) throw Boom.notFound('User not found')
+		let success
 		try {
-			user = await User.destroy({
-				where: { id },
-			})
+			await user.destroy()
 		} catch(e) {
 			ctx.app.emit('error', e)	
+			ctx.body.success = false
 			throw Boom.internal('Error deleting  user')
 		}
-		if (!user) throw Boom.notFound('User not found')
-		return ctx.body.user = user
+		return ctx.body.success = true
 	},
 
 }

@@ -114,7 +114,7 @@ describe('User Controller', () => {
           authToken = body.authToken
 					expect(body).to.exist
 					expect(body.authToken).to.exist
-					expect(body.statusCode).to.eql(200)
+					expect(res.statusCode).to.eql(200)
           done()
         }).catch(done)
     })
@@ -189,7 +189,7 @@ describe('User Controller', () => {
 		})
 		it('should return 404 if not found', done => {
 			chai.request(app)
-			.get('/user/12345')
+			.get('/users/12345')
 			.set('Authorization', `Bearer ${authToken}`)
 			.catch(res => {
 				let { body } = res.response
@@ -218,9 +218,39 @@ describe('User Controller', () => {
    * Delete
    */
 	describe('Delete', () => {
-		it('should return error without token')	
-		it('should return error if user not found id')
-		it('should delete')
+			it('should not delete without token', done => {
+			chai.request(app).delete('/users/1').catch(res => {
+				let { body, statusCode } = res.response
+				expect(statusCode).to.eql(401)
+				expect(body).to.exist
+				expect(body.message).to.exist
+				done()
+			}).catch(done)
+		})
+
+		it('should return 404 if not found', done => {
+			chai.request(app)
+			.get('/users/12345')
+			.set('Authorization', `Bearer ${authToken}`)
+			.catch(res => {
+				let { body } = res.response
+				expect(body).to.exist
+				expect(res.response.statusCode).to.eql(404)
+				done()
+			})
+		})
+
+		it('should delete', done => {
+			chai.request(app)
+			.delete(`/users/${userId}`)
+			.set('Authorization', `Bearer ${authToken}`)
+			.then(res => {
+				const { body } = res
+				expect(res.statusCode).to.eql(200)
+				expect(res.body.success).to.eql(true)
+				done()
+			}).catch(done)				
+		})
 	}) 
 
   /**
