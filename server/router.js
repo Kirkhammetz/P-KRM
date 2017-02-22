@@ -1,5 +1,5 @@
 const UserController = require('./controllers/user.controller')
-const jwt = require('./middlewares/jwt.middleware')
+const jwt = require('./libs/jwt')
 const Boom = require('boom')
 
 module.exports = (app) => {
@@ -13,11 +13,11 @@ module.exports = (app) => {
    * Users
    */
 
-  api.get('/users', jwt, UserController.index)
+  api.get('/users', jwt.auth, UserController.index)
   api.post('/users', UserController.create)
-  api.get('/users/:id', jwt, UserController.get)
+  api.get('/users/:id', jwt.auth, UserController.get)
   api.put('/users/:id')
-  api.delete('/users/:id', jwt, UserController.delete)
+  api.delete('/users/:id', jwt.auth, UserController.delete)
 
   api.post('/auth', UserController.auth)
 

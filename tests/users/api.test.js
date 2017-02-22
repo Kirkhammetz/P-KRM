@@ -196,7 +196,7 @@ describe('User Controller', () => {
 				expect(body).to.exist
 				expect(res.response.statusCode).to.eql(404)
 				done()
-			})
+			}).catch(done)
 		})
 		it('should get', done => {
 			chai.request(app)

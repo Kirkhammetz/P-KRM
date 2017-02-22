@@ -1,4 +1,4 @@
-var bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt')
 const db = require('../configs/database')
 const jwt = require('../libs/jwt')
 
@@ -37,6 +37,10 @@ const User = db.define('users', {
       notEmpty: true,
     },
   },
+
+	lastOnline: {
+		type: db.Sequelize.DATE,
+	},
 
 }, {
   freezeTableName: true,
@@ -95,7 +99,9 @@ const User = db.define('users', {
       const user = this
       let payload = { id: user.id, username: user.username, email: user.email }
       try {
-        return jwt.sign(payload)
+        let token = jwt.sign(payload)
+				user.update({ lastOnline: Date.now() })
+				return token
       } catch (e) {
         throw e
       }
@@ -139,7 +145,10 @@ User.hook('beforeUpdate', async (user) => {
   }
 })
 
-// if (process.env.NODE_ENV !== 'production') User.sync({ force: true })
-User.sync()
+if (process.env.NODE_ENV === 'test') {
+	User.sync({ force: true })
+} else {
+	User.sync()
+}	
 
 module.exports = User
