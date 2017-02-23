@@ -1,3 +1,4 @@
+global.Promise = require('bluebird')
 const path = require('path')
 const ENV_PATH = process.env.NODE_ENV === 'production' ? path.resolve('.env') : path.resolve('.env.dev')
 

@@ -1,6 +1,7 @@
-const bcrypt = require('bcrypt')
 const db = require('../configs/database')
 const jwt = require('../libs/jwt')
+Promise.promisifyAll(require('bcrypt'))
+const bcrypt = require('bcrypt')
 
 /**
  * SCHEMA
@@ -42,6 +43,10 @@ const User = db.define('users', {
 		type: db.Sequelize.DATE,
 	},
 
+  reset_token: {
+    type: db.Sequelize.STRING,
+  },
+
 }, {
   freezeTableName: true,
 
@@ -64,6 +69,17 @@ const User = db.define('users', {
      * Wrap bcrypt's hashing in a promise to use with async/await
      * @return {[Promise]}
      */
+    // generatePassword: function generatePassword(password) {
+    //   const promise = new Promise((resolve, reject) => {
+    //     if (!password || !password.length) reject('No password provided.')
+    //     bcrypt.hash(password, 10, (err, hash) => {
+    //       if (err) return reject(err)
+    //       return resolve(hash)
+    //     })
+    //   })
+    //   return promise
+    // },
+
     generatePassword: function generatePassword(password) {
       const promise = new Promise((resolve, reject) => {
         if (!password || !password.length) reject('No password provided.')
@@ -149,6 +165,6 @@ if (process.env.NODE_ENV === 'test') {
 	User.sync({ force: true })
 } else {
 	User.sync()
-}	
+}
 
 module.exports = User
