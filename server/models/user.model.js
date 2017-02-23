@@ -1,7 +1,6 @@
 const db = require('../configs/database')
 const jwt = require('../libs/jwt')
-Promise.promisifyAll(require('bcrypt'))
-const bcrypt = require('bcrypt')
+const bcrypt = require('bluebird').promisifyAll(require('bcrypt'))
 
 /**
  * SCHEMA
@@ -43,7 +42,7 @@ const User = db.define('users', {
 		type: db.Sequelize.DATE,
 	},
 
-  reset_token: {
+  resetToken: {
     type: db.Sequelize.STRING,
   },
 
@@ -69,27 +68,7 @@ const User = db.define('users', {
      * Wrap bcrypt's hashing in a promise to use with async/await
      * @return {[Promise]}
      */
-    // generatePassword: function generatePassword(password) {
-    //   const promise = new Promise((resolve, reject) => {
-    //     if (!password || !password.length) reject('No password provided.')
-    //     bcrypt.hash(password, 10, (err, hash) => {
-    //       if (err) return reject(err)
-    //       return resolve(hash)
-    //     })
-    //   })
-    //   return promise
-    // },
-
-    generatePassword: function generatePassword(password) {
-      const promise = new Promise((resolve, reject) => {
-        if (!password || !password.length) reject('No password provided.')
-        bcrypt.hash(password, 10, (err, hash) => {
-          if (err) return reject(err)
-          return resolve(hash)
-        })
-      })
-      return promise
-    },
+    generatePassword: password => bcrypt.hashAsync(password, 10),
 
     /**
      * Compare Password
@@ -98,14 +77,7 @@ const User = db.define('users', {
      */
     comparePassword: function comparePassword(password) {
       const user = this
-      const promise = new Promise((resolve, reject) => {
-        if (!password || !password.length) reject('No password provided.')
-        bcrypt.compare(password, user.password, (err, res) => {
-          if (err) return reject(err)
-          return resolve(res)
-        })
-      })
-      return promise
+      return bcrypt.compareAsync(password, user.password)
     },
     /**
      * Serialize a JWT with user info.

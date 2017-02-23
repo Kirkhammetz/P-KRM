@@ -1,5 +1,7 @@
 module.exports = {
 
+  NODE_ENV: process.env.NODE_ENV,
+
   SERVER_NAME: process.env.SERVER_NAME,
 
   SERVER_PORT: process.env.SERVER_PORT,
