@@ -23,7 +23,6 @@ module.exports = {
       user = await User.create({ username, password, email })
     } catch (e) {
       ctx.app.emit('error', e)
-      console.log(e.message)
       throw Boom.badRequest(e.message)
     }
     return ctx.body.user = user

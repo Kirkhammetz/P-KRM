@@ -185,7 +185,7 @@ describe('User Controller', () => {
 				expect(body).to.exist
 				expect(body.message).to.exist
 				done()
-			}).catch(done)	
+			}).catch(done)
 		})
 		it('should return 404 if not found', done => {
 			chai.request(app)
@@ -249,9 +249,9 @@ describe('User Controller', () => {
 				expect(res.statusCode).to.eql(200)
 				expect(res.body.success).to.eql(true)
 				done()
-			}).catch(done)				
+			}).catch(done)
 		})
-	}) 
+	})
 
   /**
    * CLEANUP

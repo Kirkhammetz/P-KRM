@@ -1,1 +1,1 @@
-Thu Feb 23 2017 15:21:57 GMT+0100 (CET)	{"name":"SequelizeValidationError","message":"notNull Violation: email cannot be null","errors":[{"message":"email cannot be null","type":"notNull Violation","path":"email","value":null}]}
+Thu Feb 23 2017 15:37:17 GMT+0100 (CET)	{"name":"SequelizeValidationError","message":"notNull Violation: email cannot be null","errors":[{"message":"email cannot be null","type":"notNull Violation","path":"email","value":null}]}

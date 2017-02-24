@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon -w server/ -w main.js main.js",
-    "test": "NODE_ENV=test mocha --harmony tests/"
+    "test": "NODE_ENV=test mocha tests/"
   },
   "engines": {
-    "node": ">=v7.4.0"
+    "node": ">=v7.6.0"
   },
   "keywords": [],
   "author": "",
