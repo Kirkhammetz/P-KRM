@@ -18,6 +18,11 @@ module.exports = {
 
   create: async ctx => {
     const { username, password, email } = ctx.request.body
+
+    if (!username) throw Boom.badRequest('Username not provided')
+    if (!password) throw Boom.badRequest('Password not provided')
+    if (!email) throw Boom.badRequest('Email not provided')
+
     let user
     try {
       user = await User.create({ username, password, email })
