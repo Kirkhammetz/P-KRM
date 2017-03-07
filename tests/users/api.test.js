@@ -19,7 +19,7 @@ describe('User Controller', () => {
    */
   describe('Create', () => {
     it('should throw error with no data', (done) => {
-      chai.request(app).post('/users')
+      chai.request(app).post('/api/users')
       .catch((err) => {
         let { body } = err.response
         expect(body.statusCode).to.eql(400)
@@ -28,7 +28,7 @@ describe('User Controller', () => {
     })
 
     it('should throw error with partial data', (done) => {
-      chai.request(app).post('/users').send({
+      chai.request(app).post('/api/users').send({
         username: 'admin'
       })
       .catch((err) => {
@@ -39,7 +39,7 @@ describe('User Controller', () => {
     })
 
     it('should throw error with partial data', (done) => {
-      chai.request(app).post('/users').send({
+      chai.request(app).post('/api/users').send({
         username: 'admin',
         password: 'admin',
       })
@@ -51,7 +51,7 @@ describe('User Controller', () => {
     })
 
     it('should create', (done) => {
-      chai.request(app).post('/users').send(adminUser)
+      chai.request(app).post('/api/users').send(adminUser)
       .then((res) => {
 				expect(res.statusCode).to.eql(200)
 				expect(res.body).to.exist
@@ -66,13 +66,13 @@ describe('User Controller', () => {
    */
   describe('Auth', () => {
     it('should return error if email missing', () => {
-      chai.request(app).post('/auth').send({}).catch(err => {
+      chai.request(app).post('/api/auth').send({}).catch(err => {
         expect(err.status).to.eql(400)
       })
     })
 
     it('should return error if password missing', () => {
-      chai.request(app).post('/auth').send({ email: 'test@example.com' }).catch(err => {
+      chai.request(app).post('/api/auth').send({ email: 'test@example.com' }).catch(err => {
 				let { body } = err.response
 				expect(body.error).to.exist
 				expect(body.statusCode).to.eql(400)
@@ -80,7 +80,7 @@ describe('User Controller', () => {
     })
 
 		it('should return error if user dont exist', (done) => {
-			chai.request(app).post('/auth').send({
+			chai.request(app).post('/api/auth').send({
 				email: 'test@invalid.com',
 				password: 'invalid'
 			})
@@ -94,7 +94,7 @@ describe('User Controller', () => {
 		})
 
 		it('should return error if password incorrect', done => {
-			chai.request(app).post('/auth').send({
+			chai.request(app).post('/api/auth').send({
 				email: adminUser.email,
 				password: 'invalid'
 			}).catch(err => {
@@ -108,7 +108,7 @@ describe('User Controller', () => {
 		})
 
     it('should auth', (done) => {
-      chai.request(app).post('/auth').send(adminUser)
+      chai.request(app).post('/api/auth').send(adminUser)
         .then((res) => {
 					let { body } = res
           authToken = body.authToken
@@ -125,7 +125,7 @@ describe('User Controller', () => {
    */
 	describe('Indexing', () => {
 		it('should not index without token', done => {
-			chai.request(app).get('/users').catch(res => {
+			chai.request(app).get('/api/users').catch(res => {
 				let { body } = res.response
 				expect(res.response.statusCode).to.eql(401)
 				expect(body).to.exist
@@ -135,7 +135,7 @@ describe('User Controller', () => {
 		})
 		it('should not index with invalid token', done => {
 			chai.request(app)
-			.get('/users')
+			.get('/api/users')
 			.set('Authorization', `Bearer ${authToken}i123`)
 			.catch(res => {
 				let { body } = res.response
@@ -147,7 +147,7 @@ describe('User Controller', () => {
 		})
 		it('should index', done => {
 			chai.request(app)
-			.get('/users')
+			.get('/api/users')
 			.set('Authorization', `Bearer ${authToken}`)
 			.then(res => {
 				let { body, statusCode } = res
@@ -167,7 +167,7 @@ describe('User Controller', () => {
    */
 	describe('Get Single', () => {
 		it('should not index without token', done => {
-			chai.request(app).get('/users/1').catch(res => {
+			chai.request(app).get('/api/users/1').catch(res => {
 				let { body, statusCode } = res.response
 				expect(statusCode).to.eql(401)
 				expect(body).to.exist
@@ -177,7 +177,7 @@ describe('User Controller', () => {
 		})
 		it('should not get with invalid auth token', done => {
 			chai.request(app)
-			.get('/users/1')
+			.get('/api/users/1')
 			.set('Authorization', `Bearer ${authToken}i123`)
 			.catch(res => {
 				let { body, statusCode } = res.response
@@ -189,7 +189,7 @@ describe('User Controller', () => {
 		})
 		it('should return 404 if not found', done => {
 			chai.request(app)
-			.get('/users/12345')
+			.get('/api/users/12345')
 			.set('Authorization', `Bearer ${authToken}`)
 			.catch(res => {
 				let { body } = res.response
@@ -200,7 +200,7 @@ describe('User Controller', () => {
 		})
 		it('should get', done => {
 			chai.request(app)
-			.get(`/users/${userId}`)
+			.get(`/api/users/${userId}`)
 			.set('Authorization', `Bearer ${authToken}`)
 			.then(res => {
 				const { body } = res
@@ -219,7 +219,7 @@ describe('User Controller', () => {
    */
 	describe('Delete', () => {
 			it('should not delete without token', done => {
-			chai.request(app).delete('/users/1').catch(res => {
+			chai.request(app).delete('/api/users/1').catch(res => {
 				let { body, statusCode } = res.response
 				expect(statusCode).to.eql(401)
 				expect(body).to.exist
@@ -230,7 +230,7 @@ describe('User Controller', () => {
 
 		it('should return 404 if not found', done => {
 			chai.request(app)
-			.get('/users/12345')
+			.get('/api/users/12345')
 			.set('Authorization', `Bearer ${authToken}`)
 			.catch(res => {
 				let { body } = res.response
@@ -242,7 +242,7 @@ describe('User Controller', () => {
 
 		it('should delete', done => {
 			chai.request(app)
-			.delete(`/users/${userId}`)
+			.delete(`/api/users/${userId}`)
 			.set('Authorization', `Bearer ${authToken}`)
 			.then(res => {
 				const { body } = res

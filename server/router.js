@@ -2,9 +2,22 @@ const UserController = require('./controllers/user.controller')
 const AuthController = require('./controllers/auth.controller')
 const jwt = require('./libs/jwt')
 const Boom = require('boom')
+const Router = require('koa-router')
 
 module.exports = (app) => {
-  const api = require('koa-router')()
+  const public = new Router()
+  const api = new Router({ prefix: '/api' })
+
+  /**
+   * Public Routes
+   */
+  public.get('/', async (ctx, next) => {
+    await ctx.render('index.pug')
+  })
+
+  /**
+   * API ROUTER
+   */
 
   api.get('/', async (ctx, next) => {
     ctx.body = 'Wellcome route'
@@ -50,6 +63,7 @@ module.exports = (app) => {
         }
       }
     })
+    .use(public.routes())
     .use(api.routes())
     .use(api.allowedMethods())
 }
