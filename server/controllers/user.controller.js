@@ -18,6 +18,11 @@ module.exports = {
 
   create: async ctx => {
     const { username, password, email } = ctx.request.body
+
+    if (!username) throw Boom.badRequest('Username not provided')
+    if (!password) throw Boom.badRequest('Password not provided')
+    if (!email) throw Boom.badRequest('Email not provided')
+
     let user
     try {
       user = await User.create({ username, password, email })
@@ -77,7 +82,7 @@ module.exports = {
 	get: async ctx => {
 		const { id } = ctx.params
 		if(!id) throw Boom.invalid('No id provided')
-		
+
 		/**
 		  * Get User
 			*/
@@ -89,13 +94,13 @@ module.exports = {
 				raw: true
 			})
 		} catch(e) {
-			ctx.app.emit('error', e)	
+			ctx.app.emit('error', e)
 			throw Boom.internal('Error fetching single user')
 		}
 		if (!user) throw Boom.notFound('User not found')
 		return ctx.body.user = user
-	},	
-	
+	},
+
 	delete: async ctx => {
 		const { id } = ctx.params
 		if(!id) throw Boom.invalid('No id provided')
@@ -110,7 +115,7 @@ module.exports = {
 		try {
 			await user.destroy()
 		} catch(e) {
-			ctx.app.emit('error', e)	
+			ctx.app.emit('error', e)
 			ctx.body.success = false
 			throw Boom.internal('Error deleting  user')
 		}

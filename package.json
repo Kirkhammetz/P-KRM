@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon -w server/ -w main.js main.js",
-    "test": "NODE_ENV=test mocha --harmony tests/"
+    "test": "NODE_ENV=test mocha tests/"
   },
   "engines": {
-    "node": ">=v7.4.0"
+    "node": ">=v7.6.0"
   },
   "keywords": [],
   "author": "",
@@ -27,7 +27,7 @@
     "koa-views": "^6.0.0",
     "pg": "^6.1.2",
     "pug": "^2.0.0-beta11",
-    "sequelize": "^3.28.0"
+    "sequelize": "^3.30.2"
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",
