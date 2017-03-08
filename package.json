@@ -1,7 +1,7 @@
 {
   "name": "koa-react-postgresql-boilerplate",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.0.0",
+  "description": "Boilerplate: PostgreSQL, Koa2, React/Redux, MateriaUI.",
   "main": "index.js",
   "scripts": {
     "start": "nodemon -w server/ -w main.js main.js",

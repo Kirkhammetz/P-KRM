@@ -1,5 +1,22 @@
-## Koa2/React/PostgreSQL Boilerplate
+# [P-KRM Boilerplate](https://github.com/Kirkhammetz/P-KRM)
 
-Time to try something fresh
+**Still Work in Progress**
 
-Init, work in progress :)
+Time to try something fresh :)
+
+Javascript Full Stack Framework featuring:
+
+- PostgreSQL
+- Koa2
+- React
+- Redux
+- Material-UI
+- ES2017
+- Webpack
+
+Structure will be similar to the Express boilerplate:
+
+- Rendered views for the public routes + Single components or vanillaJS
+- Admin Dashboard as a React SPA.
+
+**Still Work in Progress**
