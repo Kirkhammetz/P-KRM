@@ -14,7 +14,7 @@ Javascript Full Stack Framework featuring:
 - ES2017
 - Webpack
 
-Structure will be similar to the Express boilerplate:
+Structure will be similar to the [React/Express](https://github.com/Kirkhammetz/react-redux-adminLTE-FullStack-boilerplate) boilerplate:
 
 - Rendered views for the public routes + Single components or vanillaJS
 - Admin Dashboard as a React SPA.
