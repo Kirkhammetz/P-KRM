@@ -12,7 +12,11 @@ module.exports = (app) => {
    * Public Routes
    */
   public.get('/', async (ctx, next) => {
-    await ctx.render('index.pug')
+    await ctx.render('index')
+  })
+
+  public.get('/admin', async (ctx, next) => {
+    await ctx.render('dashboard')
   })
 
   /**
